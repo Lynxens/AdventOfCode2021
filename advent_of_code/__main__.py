@@ -106,7 +106,7 @@ class Calendar:
 
 def main():
     # Load all available day modules
-    days = [basename(f)[:-3] for f in glob.glob(join(dirname(__file__), "src/day*.py")) if isfile(f)]
+    days = [basename(f)[:-3] for f in glob.glob(join(dirname(__file__), "day*.py")) if isfile(f)]
 
     calendar = Calendar()
     for day in days:

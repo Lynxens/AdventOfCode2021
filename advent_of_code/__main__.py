@@ -23,16 +23,16 @@ class Capturing(list):
 
 class Day:
     def __init__(self, title: str):
-        self.title = title
+        self.title = f' {title}'
         self.text: [str] = []
 
     @property
-    def is_completed(self) -> bool:
-        return len(self.text) > 0
+    def stars(self) -> int:
+        return len(self.text)
 
     @property
     def width(self) -> int:
-        if self.is_completed:
+        if self.stars > 0:
             return max(len(self.title), max(map(lambda x: len(x), self.text)))
         else:
             return len(self.title)
@@ -52,7 +52,7 @@ class Calendar:
         row = floor(day / 5)
         col = day % 5
 
-        self.grid[row][col].text = text
+        self.grid[row][col].text = list(map(lambda x: f' {x} ', text))
 
     def col_width(self, col: int) -> int:
         return max(max([self.grid[row][col].width for row in range(5)]), 15)
@@ -81,8 +81,9 @@ class Calendar:
             for col in range(5):
                 col_width = self.col_width(col)
                 title = self.grid[row][col].title
+                stars = self.grid[row][col].stars
 
-                print(f'|{title}{" " * (col_width - len(title))}', end='')
+                print(f'|{title}{" " * (col_width - len(title) - stars - 1)}{"*" * stars} ', end='')
             print('|')
 
             # Header bottom bar

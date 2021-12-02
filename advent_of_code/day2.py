@@ -48,13 +48,13 @@ def run():
 
 class TestPuzzles(unittest.TestCase):
     def test_puzzle_1_example(self):
-        self.assertEqual(puzzle_1('data/day2/input_test.txt'), 150)
+        self.assertEqual(puzzle_1('data/day2/input_example.txt'), 150)
 
     def test_puzzle_1(self):
         self.assertEqual(puzzle_1('data/day2/input.txt'), 1728414)
 
     def test_puzzle_2_example(self):
-        self.assertEqual(puzzle_2('data/day2/input_test.txt'), 900)
+        self.assertEqual(puzzle_2('data/day2/input_example.txt'), 900)
 
     def test_puzzle_2(self):
         self.assertEqual(puzzle_2('data/day2/input.txt'), 1765720035)

@@ -1,11 +1,13 @@
 import unittest
 import numpy as np
+from numba import jit
 
 
 def read(file_path: str) -> np.ndarray:
     return np.loadtxt(file_path, delimiter=',', dtype=int)
 
 
+@jit(nopython=True)
 def spawn_fish(data: np.ndarray, days: int):
     # Frequency table fish
     frequency_table = [0] * 9

@@ -4,7 +4,7 @@ from math import ceil, floor
 
 
 def read(file_path: str) -> np.ndarray:
-    return np.sort(np.loadtxt(file_path, delimiter=',', dtype=int))
+    return np.loadtxt(file_path, delimiter=',', dtype=int)
 
 
 def puzzle_1(data: np.ndarray) -> int:

@@ -55,9 +55,9 @@ class Calendar:
         for line in text:
             prefix, value = line.split(": ")
 
-            if len(value) > 7:
+            if len(value) > 6:
                 value = int(value)
-                self.grid[row][col].text.append(f' {prefix}: {value:.2e} ')
+                self.grid[row][col].text.append(f' {prefix}: {value:.1e} ')
             else:
                 self.grid[row][col].text.append(f' {prefix}: {value} ')
 

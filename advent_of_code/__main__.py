@@ -52,7 +52,15 @@ class Calendar:
         row = floor(day / 5)
         col = day % 5
 
-        self.grid[row][col].text = list(map(lambda x: f' {x} ', text))
+        for line in text:
+            prefix, value = line.split(": ")
+
+            if len(value) > 7:
+                value = int(value)
+                self.grid[row][col].text.append(f' {prefix}: {value:.2e} ')
+            else:
+                self.grid[row][col].text.append(f' {prefix}: {value} ')
+
 
     def col_width(self, col: int) -> int:
         return max(max([self.grid[row][col].width for row in range(5)]), 15)

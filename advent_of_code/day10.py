@@ -1,4 +1,5 @@
 import unittest
+from functools import reduce
 
 DAY = 10
 
@@ -16,13 +17,8 @@ CONVERSION_TABLE = {
 
 
 def read(file_path: str) -> list:
-    data = []
-
     with open(file_path) as f:
-        for line in f.readlines():
-            data.append(line.strip())
-
-    return data
+        return [line.strip() for line in f]
 
 
 def is_balanced(chunk: str, stack: str) -> (str, str, bool):
@@ -71,12 +67,7 @@ def puzzle_2(data: list) -> int:
         _, stack, success = is_balanced(line, '')
 
         if success:
-            points = 0
-            for char in stack:
-                points *= 5
-                points += points_table[char]
-
-            scores.append(points)
+            scores.append(reduce(lambda a, b: a * 5 + b, map(points_table.get, stack)))
 
     # Return middle score
     return sorted(scores)[len(scores) // 2]

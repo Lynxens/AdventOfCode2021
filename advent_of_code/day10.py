@@ -1,7 +1,6 @@
 import unittest
 from collections import deque
 from functools import reduce
-import timeit
 
 DAY = 10
 

@@ -1,5 +1,7 @@
 import unittest
+from collections import deque
 from functools import reduce
+import timeit
 
 DAY = 10
 
@@ -21,18 +23,18 @@ def read(file_path: str) -> list:
         return [line.strip() for line in f]
 
 
-def is_balanced(chunk: str, stack: str) -> (str, str, bool):
-    if len(chunk) == 0:
-        return '', stack, True
+def is_balanced(line: str) -> (str, str, bool):
+    stack = deque([])
+    for char in line:
+        if char in '([{<':
+            stack.appendleft(char)
+        else:
+            if len(stack) == 0 or CONVERSION_TABLE[char] != stack[0]:
+                return char, stack, False
 
-    char = chunk[0]
-    if char in '([{<':
-        return is_balanced(chunk[1:], char + stack)
-    else:
-        if len(stack) == 0 or CONVERSION_TABLE[char] != stack[0]:
-            return char, stack, False
+            stack.popleft()
 
-        return is_balanced(chunk[1:], stack[1:])
+    return '', stack, True
 
 
 def puzzle_1(data: list) -> int:
@@ -45,7 +47,7 @@ def puzzle_1(data: list) -> int:
 
     points = 0
     for line in data:
-        char, _, success = is_balanced(line, '')
+        char, _, success = is_balanced(line)
 
         if not success:
             points += points_table[char]
@@ -64,7 +66,7 @@ def puzzle_2(data: list) -> int:
     scores = []
 
     for line in data:
-        _, stack, success = is_balanced(line, '')
+        _, stack, success = is_balanced(line)
 
         if success:
             scores.append(reduce(lambda a, b: a * 5 + b, map(points_table.get, stack)))

@@ -41,13 +41,9 @@ def flash_cycle(grid: np.ndarray) -> int:
 
 
 def puzzle_1(data: np.ndarray) -> int:
-    flashes = 0
     grid = np.copy(data)
 
-    for _ in range(100):
-        flashes += flash_cycle(grid)
-
-    return flashes
+    return sum([flash_cycle(grid) for _ in range(100)])
 
 
 def puzzle_2(data: np.ndarray) -> int:

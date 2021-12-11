@@ -19,7 +19,7 @@ def puzzle_2(data: np.ndarray) -> int:
 def run():
     data = read(f'data/day{DAY}/input.txt')
 
-    print(f"Puzzle 1: {puzzle_1(data)}")
+    # print(f"Puzzle 1: {puzzle_1(data)}")
     # print(f"Puzzle 2: {puzzle_2(data)}")
 
 

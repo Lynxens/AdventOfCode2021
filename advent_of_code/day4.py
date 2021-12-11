@@ -1,7 +1,5 @@
 import unittest
 import numpy as np
-from typing import Union
-from copy import deepcopy
 
 FOUND = -1
 
@@ -44,7 +42,7 @@ def puzzle_2(numbers: np.ndarray, _boards: np.ndarray) -> int:
             bingo_board, bingo_board_index = get_bingo_board(boards)
 
             if bingo_board is not None:
-                last_bingo_board = deepcopy(bingo_board)
+                last_bingo_board = bingo_board
                 last_bingo_number = number
 
                 # Crappy delete

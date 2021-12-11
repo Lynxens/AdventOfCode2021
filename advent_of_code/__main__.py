@@ -3,6 +3,7 @@ import glob
 import sys
 from io import StringIO
 from math import floor
+from time import time
 
 
 class Capturing(list):
@@ -46,7 +47,7 @@ class Calendar:
     def __init__(self):
         self.grid: [[Day]] = [[Day(f'Day {day}') for day in range(i, i + 5)] for i in range(1, 25, 5)]
 
-    def add(self, module: str, text: [str]):
+    def add(self, module: str, text: [str], runtime: float):
         day = int(module[3:]) - 1
 
         row = floor(day / 5)
@@ -61,6 +62,7 @@ class Calendar:
             else:
                 self.grid[row][col].text.append(f' {prefix}: {value} ')
 
+        self.grid[row][col].text.append(f' Time: {runtime * 1000:.2f}ms ')
 
     def col_width(self, col: int) -> int:
         return max(max([self.grid[row][col].width for row in range(5)]), 15)
@@ -122,9 +124,11 @@ def main():
         puzzles = __import__(day)
 
         with Capturing() as output:
+            start = time()
             puzzles.run()
+            end = time() - start
 
-        calendar.add(day, list(output))
+        calendar.add(day, list(output), end)
 
     calendar.print()
 

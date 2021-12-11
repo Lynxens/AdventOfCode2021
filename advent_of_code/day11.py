@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from scipy.signal import convolve2d\
+from scipy.signal import convolve2d
 
 DAY = 11
 

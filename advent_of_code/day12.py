@@ -7,6 +7,7 @@ DAY = 12
 def read(file_path: str) -> (dict, set):
     cave_system = defaultdict(set)
     small_caves = set([])
+    large_caves = set([])
 
     with open(file_path) as f:
         for line in f:
@@ -19,10 +20,12 @@ def read(file_path: str) -> (dict, set):
                 cave_system[b].add(a)
 
             for x in [a, b]:
-                if not x.isupper() and x != 'start' and x != 'end':
+                if x.isupper() or x == 'start' or x == 'end':
+                    large_caves.add(x)
+                else:
                     small_caves.add(x)
 
-    return cave_system, small_caves
+    return cave_system, small_caves, large_caves
 
 
 def get_path(cave_system: dict, small_caves: set, visited: set, position: str) -> int:
@@ -37,40 +40,38 @@ def get_path(cave_system: dict, small_caves: set, visited: set, position: str) -
     return sum([get_path(cave_system, small_caves, visited.union({option}), option) for option in options])
 
 
-def puzzle_1(cave_system: dict, small_caves: set) -> int:
+def puzzle_1(cave_system: dict, small_caves: set, _) -> int:
     return get_path(cave_system, small_caves, {'start'}, 'start')
 
 
-def get_path_double_visit(cave_system: dict, small_caves: set, double_visit_cave: str, visits: int, visited: list, position: str) -> list:
+def get_path_2(cave_system: dict, small_caves_left: list, large_caves: set, path: list, position: str) -> list:
     if position == 'end':
-        return ['-'.join(visited)]
+        return ['-'.join(path)]
 
-    cannot_visit = set(visited).intersection(small_caves)
-
-    if visits < 2 and double_visit_cave in cannot_visit:
-        cannot_visit.remove(double_visit_cave)
-
-    options = cave_system[position].difference(cannot_visit)
+    options = cave_system[position].intersection(set(small_caves_left).union(large_caves))
 
     if len(options) == 0:
         return []
 
     paths = []
     for option in options:
-        paths += get_path_double_visit(
-            cave_system, small_caves, double_visit_cave,
-            visits + (1 if option == double_visit_cave else 0),
-            visited + [option], option
-        )
+        new_small_caves_left = small_caves_left.copy()
+
+        try:
+            new_small_caves_left.remove(position)
+        except ValueError:
+            pass
+
+        paths += get_path_2(cave_system, new_small_caves_left, large_caves, path + [option], option)
 
     return paths
 
 
-def puzzle_2(cave_system: dict, small_caves: set) -> int:
+def puzzle_2(cave_system: dict, small_caves: set, large_caves: set) -> int:
     paths = set()
 
     for cave in small_caves:
-        paths.update(get_path_double_visit(cave_system, small_caves, cave, 0, ['start'], 'start'))
+        paths.update(get_path_2(cave_system, list(small_caves) + [cave], large_caves, ['start'], 'start'))
 
     return len(paths)
 

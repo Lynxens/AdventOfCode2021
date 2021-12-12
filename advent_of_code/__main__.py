@@ -29,7 +29,7 @@ class Day:
 
     @property
     def stars(self) -> int:
-        return len(self.text)
+        return max(0, len(self.text) - 1)
 
     @property
     def width(self) -> int:

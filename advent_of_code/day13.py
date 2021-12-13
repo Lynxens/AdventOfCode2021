@@ -31,21 +31,21 @@ def fold(coordinates: {tuple}, axis: str, value: int) -> {tuple}:
     def map_coordinate(a: int):
         return value - abs(a - value)
 
-    new_coordinates = []
+    new_coordinates = set()
     if axis == 'y':
         for (y, x) in coordinates:
             if y < value:
-                new_coordinates.append((y, x))
+                new_coordinates.add((y, x))
             elif y > value:
-                new_coordinates.append((map_coordinate(y), x))
+                new_coordinates.add((map_coordinate(y), x))
     else:
         for (y, x) in coordinates:
             if x < value:
-                new_coordinates.append((y, x))
+                new_coordinates.add((y, x))
             elif x > value:
-                new_coordinates.append((y, map_coordinate(x)))
+                new_coordinates.add((y, map_coordinate(x)))
 
-    return set(new_coordinates)
+    return new_coordinates
 
 
 def puzzle_1(coordinates: {tuple}, instructions: [tuple]) -> int:
